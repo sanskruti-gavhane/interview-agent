@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
-const API = "http://localhost:5000";
+const API = "https://interview-agent-lwoi.onrender.com";
 
 function Metric({ label, value }) {
   return (
