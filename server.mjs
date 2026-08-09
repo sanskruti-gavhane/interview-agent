@@ -240,8 +240,14 @@ function fallbackQuestion(
     day?.objectives?.[0] ||
     "the main concepts from this topic";
 
+  /*
+    FIX:
+    weakTopics is a Set, so use .has()
+    instead of .includes()
+  */
+
   if (
-    state.weakTopics.includes(
+    state.weakTopics.has(
       mission.day
     )
   ) {
@@ -764,9 +770,7 @@ async function generateFinalFeedback(
 
     next: [
       "Review the lowest-scoring topic and explain it without notes.",
-
       "Practice architecture and trade-off questions using production examples.",
-
       "Extend one cohort project independently and document the design decisions."
     ],
 
@@ -864,6 +868,7 @@ Do not make a hiring or rejection decision.
       return {
         ...fallback,
         ...parsed,
+
         scorecard:
           parsed.scorecard ||
           scorecard,
@@ -1216,6 +1221,7 @@ app.post(
               .interviewState
           )
       });
+
     } catch (error) {
       console.error(
         "Interview endpoint error:",
@@ -1238,12 +1244,12 @@ app.post(
 const PORT =
   process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(
-    `AI Interview Agent backend running at http://localhost:${PORT}`
+    `AI Interview Agent backend running on port ${PORT}`
   );
 
   console.log(
-    `Required endpoint: POST http://localhost:${PORT}/api/interview`
+    `Required endpoint: POST /api/interview`
   );
 });
